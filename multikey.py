@@ -58,7 +58,102 @@ class MyProperties(PropertyGroup):
         default="",
         maxlen=64,
         )
+    
+    my_bool_b: BoolProperty(
+        name="",
+        description="Enable/disable this key",
+        default = True
+        )
 
+    
+
+    my_float_b: FloatProperty(
+        name = "Value",
+        description = "Value (0.0 to 0.1) of the shape key",
+        default = 1,
+        min = 0.00,
+        max = 1.0
+        )
+
+
+    my_string_b: StringProperty(
+        name="Key",
+        description="Name of the shape key (all objects must use identical shape key names)",
+        default="",
+        maxlen=64,
+        )
+    
+    my_bool_c: BoolProperty(
+        name="",
+        description="Enable/disable this key",
+        default = True
+        )
+
+    
+
+    my_float_c: FloatProperty(
+        name = "Value",
+        description = "Value (0.0 to 0.1) of the shape key",
+        default = 1,
+        min = 0.00,
+        max = 1.0
+        )
+
+
+    my_string_c: StringProperty(
+        name="Key",
+        description="Name of the shape key (all objects must use identical shape key names)",
+        default="",
+        maxlen=64,
+        )
+
+    my_bool_d: BoolProperty(
+        name="",
+        description="Enable/disable this key",
+        default = True
+        )
+
+    
+
+    my_float_d: FloatProperty(
+        name = "Value",
+        description = "Value (0.0 to 0.1) of the shape key",
+        default = 1,
+        min = 0.00,
+        max = 1.0
+        )
+
+
+    my_string_d: StringProperty(
+        name="Key",
+        description="Name of the shape key (all objects must use identical shape key names)",
+        default="",
+        maxlen=64,
+        )
+    
+    my_bool_e: BoolProperty(
+        name="",
+        description="Enable/disable this key",
+        default = True
+        )
+
+    
+
+    my_float_e: FloatProperty(
+        name = "Value",
+        description = "Value (0.0 to 0.1) of the shape key",
+        default = 1,
+        min = 0.00,
+        max = 1.0
+        )
+
+
+    my_string_e: StringProperty(
+        name="Key",
+        description="Name of the shape key (all objects must use identical shape key names)",
+        default="",
+        maxlen=64,
+        )
 
 
     my_enum: EnumProperty(
@@ -92,26 +187,54 @@ class WM_OT_HelloWorld(Operator):
         k_col = mytool.my_enum
         k_en = mytool.my_bool
         
+        k_keyb = mytool.my_string_b
+        k_valb = mytool.my_float_b
+        k_colb = mytool.my_enum
+        k_enb = mytool.my_bool_b
+        
+        k_keyc = mytool.my_string_c
+        k_valc = mytool.my_float_c
+        k_colc = mytool.my_enum
+        k_enc = mytool.my_bool_c
+        
+        k_keyd = mytool.my_string_d
+        k_vald = mytool.my_float_d
+        k_cold = mytool.my_enum
+        k_end = mytool.my_bool_d
+        
+        k_keye = mytool.my_string_e
+        k_vale = mytool.my_float_e
+        k_cole = mytool.my_enum
+        k_ene = mytool.my_bool_e
+        
         col = 'chelye_bt'
+        
         ob_l = bpy.context.selected_objects
-        if(k_en == True):
-            for ob in ob_l:
-                ob.select_set(False)
-            for obj in bpy.data.collections[col].all_objects:
-                obj.select_set(True)
-                if hasattr(obj.data, "shape_keys"):
-                    if hasattr(obj.data.shape_keys, "key_blocks"):
-                        for shape in obj.data.shape_keys.key_blocks:
-                            if (shape.name == mytool.my_string):
-                                shape.value = mytool.my_float
-                            else:
-                                pass
-                else:
-                    continue
+        def ex(key,value,collection,enabled):
+            if(enabled == True):
+                for ob in ob_l:
+                    ob.select_set(False)
                 for obj in bpy.data.collections[col].all_objects:
-                    obj.select_set(False)
-            for ob in ob_l:
-                ob.select_set(True)
+                    obj.select_set(True)
+                    if hasattr(obj.data, "shape_keys"):
+                        if hasattr(obj.data.shape_keys, "key_blocks"):
+                            for shape in obj.data.shape_keys.key_blocks:
+                                if (shape.name == key):
+                                    shape.value = value
+                                else:
+                                    pass
+                    else:
+                        continue
+                    for obj in bpy.data.collections[col].all_objects:
+                        obj.select_set(False)
+                for ob in ob_l:
+                    ob.select_set(True)
+                    
+        ex(k_key, k_val, k_col, k_en)
+        ex(k_keyb, k_valb, k_colb, k_enb)
+        ex(k_keyc, k_valc, k_colc, k_enc)
+        ex(k_keyd, k_vald, k_cold, k_end)
+        ex(k_keye, k_vale, k_cole, k_ene)
 
         return {'FINISHED'}
 
@@ -156,6 +279,30 @@ class OBJECT_PT_CustomPanel(Panel):
         subrow.prop(mytool, "my_float")
         subrow.separator()
         subrow.prop(mytool, "my_bool")
+        subrow = layout.row(align=True)
+        subrow.prop(mytool, "my_string_b", icon = "SHAPEKEY_DATA")
+        subrow.separator()
+        subrow.prop(mytool, "my_float_b")
+        subrow.separator()
+        subrow.prop(mytool, "my_bool_b")
+        subrow = layout.row(align=True)
+        subrow.prop(mytool, "my_string_c", icon = "SHAPEKEY_DATA")
+        subrow.separator()
+        subrow.prop(mytool, "my_float_c")
+        subrow.separator()
+        subrow.prop(mytool, "my_bool_c")
+        subrow = layout.row(align=True)
+        subrow.prop(mytool, "my_string_d", icon = "SHAPEKEY_DATA")
+        subrow.separator()
+        subrow.prop(mytool, "my_float_d")
+        subrow.separator()
+        subrow.prop(mytool, "my_bool_d")
+        subrow = layout.row(align=True)
+        subrow.prop(mytool, "my_string_e", icon = "SHAPEKEY_DATA")
+        subrow.separator()
+        subrow.prop(mytool, "my_float_e")
+        subrow.separator()
+        subrow.prop(mytool, "my_bool_e")
         layout.operator("wm.mk_panel", icon = "OUTPUT")
         subrow = layout.row(align=True)
         layout.prop(mytool, "my_enum", icon = "OUTLINER_OB_GROUP_INSTANCE")
