@@ -34,6 +34,12 @@ from bpy.types import (Panel,
 # ------------------------------------------------------------------------
 
 class MyProperties(PropertyGroup):
+    
+    my_bool: BoolProperty(
+        name="",
+        description="Enable/disable this key",
+        default = True
+        )
 
     
 
@@ -84,26 +90,28 @@ class WM_OT_HelloWorld(Operator):
         k_key = mytool.my_string
         k_val = mytool.my_float
         k_col = mytool.my_enum
+        k_en = mytool.my_bool
         
         col = 'chelye_bt'
         ob_l = bpy.context.selected_objects
-        for ob in ob_l:
-            ob.select_set(False)
-        for obj in bpy.data.collections[col].all_objects:
-            obj.select_set(True)
-            if hasattr(obj.data, "shape_keys"):
-                if hasattr(obj.data.shape_keys, "key_blocks"):
-                    for shape in obj.data.shape_keys.key_blocks:
-                        if (shape.name == mytool.my_string):
-                            shape.value = mytool.my_float
-                        else:
-                            pass
-            else:
-                continue
+        if(k_en == True):
+            for ob in ob_l:
+                ob.select_set(False)
             for obj in bpy.data.collections[col].all_objects:
-                obj.select_set(False)
-        for ob in ob_l:
-            ob.select_set(True)
+                obj.select_set(True)
+                if hasattr(obj.data, "shape_keys"):
+                    if hasattr(obj.data.shape_keys, "key_blocks"):
+                        for shape in obj.data.shape_keys.key_blocks:
+                            if (shape.name == mytool.my_string):
+                                shape.value = mytool.my_float
+                            else:
+                                pass
+                else:
+                    continue
+                for obj in bpy.data.collections[col].all_objects:
+                    obj.select_set(False)
+            for ob in ob_l:
+                ob.select_set(True)
 
         return {'FINISHED'}
 
@@ -147,6 +155,7 @@ class OBJECT_PT_CustomPanel(Panel):
         subrow.separator()
         subrow.prop(mytool, "my_float")
         subrow.separator()
+        subrow.prop(mytool, "my_bool")
         layout.operator("wm.mk_panel", icon = "OUTPUT")
         subrow = layout.row(align=True)
         layout.prop(mytool, "my_enum", icon = "OUTLINER_OB_GROUP_INSTANCE")
