@@ -1,4 +1,5 @@
-# blender-multikey# MultiKey for Blender 2.8+ 
+# blender-multikey
+# MultiKey for Blender 2.8+ 
 ## currently in beta, public release planned for early November
 [![Screen-Shot-2020-10-06-at-3-32-43-PM.png](https://i.postimg.cc/DZs4mMr1/Screen-Shot-2020-10-06-at-3-32-43-PM.png)](https://postimg.cc/CBhxQJ6K)
 ### What does MultiKey do?
@@ -18,7 +19,7 @@ First, create a collection that all the related objects are in. _Future releases
 * None planned
 
 ### Bugs/feature requests: 
-* None currently 
+* If you have an object selected when you click Preview, it will be de-selected. Not top prioity, but I'll fix it eventually. 
 
 Send bugs or feature requests to josephclaytonhansen@gmail.com. Donations greatly appreciated!
 
