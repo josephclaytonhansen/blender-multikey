@@ -39,7 +39,7 @@ class MyProperties(PropertyGroup):
 
     my_float: FloatProperty(
         name = "Value",
-        description = "A float property",
+        description = "Value (0.0 to 0.1) of the shape key",
         default = 1,
         min = 0.00,
         max = 1.0
@@ -48,7 +48,7 @@ class MyProperties(PropertyGroup):
 
     my_string: StringProperty(
         name="Key",
-        description=":",
+        description="Name of the shape key (all objects must use identical shape key names)",
         default="",
         maxlen=64,
         )
@@ -57,7 +57,7 @@ class MyProperties(PropertyGroup):
 
     my_enum: EnumProperty(
         name="Collection",
-        description="Apply Data to attribute.",
+        description="Collection containing objects to shape key",
         items=[ ('OP1', "Option 1", ""),
                 ('OP2', "Option 2", ""),
                 ('OP3', "Option 3", ""),
@@ -70,14 +70,12 @@ class MyProperties(PropertyGroup):
 
 class WM_OT_HelloWorld(Operator):
     bl_label = "Preview"
-    bl_idname = "wm.hello_world"
+    bl_description = "Apply value to shapekeys"
+    bl_idname = "wm.mk_panel"
 
     def execute(self, context):
         scene = context.scene
         mytool = scene.my_tool
-
-        # print the values to the console
-        print("Hello World")
 
         print("float value:", mytool.my_float)
         print("string value:", mytool.my_string)
@@ -85,8 +83,12 @@ class WM_OT_HelloWorld(Operator):
 
         k_key = mytool.my_string
         k_val = mytool.my_float
+        k_col = mytool.my_enum
         
         col = 'chelye_bt'
+        ob_l = bpy.context.selected_objects
+        for ob in ob_l:
+            ob.select_set(False)
         for obj in bpy.data.collections[col].all_objects:
             obj.select_set(True)
             if hasattr(obj.data, "shape_keys"):
@@ -100,6 +102,8 @@ class WM_OT_HelloWorld(Operator):
                 continue
             for obj in bpy.data.collections[col].all_objects:
                 obj.select_set(False)
+        for ob in ob_l:
+            ob.select_set(True)
 
         return {'FINISHED'}
 
@@ -143,9 +147,9 @@ class OBJECT_PT_CustomPanel(Panel):
         subrow.separator()
         subrow.prop(mytool, "my_float")
         subrow.separator()
-        layout.operator("wm.hello_world", icon = "OUTPUT")
+        layout.operator("wm.mk_panel", icon = "OUTPUT")
         subrow = layout.row(align=True)
-        layout.prop(mytool, "my_enum")
+        layout.prop(mytool, "my_enum", icon = "OUTLINER_OB_GROUP_INSTANCE")
         layout.separator()
 
 # ------------------------------------------------------------------------
