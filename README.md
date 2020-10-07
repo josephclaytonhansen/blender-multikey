@@ -19,7 +19,7 @@ First, create a collection that all the related objects are in. _Future releases
 * None planned
 
 ### Bugs/feature requests: 
-* If you have an object selected when you click Preview, it will be de-selected. Not top prioity, but I'll fix it eventually. 
+* ~~If you have an object selected when you click Preview, it will be de-selected.~~ commit 5d5c2e9
 
 Send bugs or feature requests to josephclaytonhansen@gmail.com. Donations greatly appreciated!
 
