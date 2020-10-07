@@ -53,7 +53,7 @@ class MyProperties(PropertyGroup):
 
 
     my_string: StringProperty(
-        name="Key",
+        name="Key A",
         description="Name of the shape key (all objects must use identical shape key names)",
         default="",
         maxlen=64,
@@ -77,7 +77,7 @@ class MyProperties(PropertyGroup):
 
 
     my_string_b: StringProperty(
-        name="Key",
+        name="Key B",
         description="Name of the shape key (all objects must use identical shape key names)",
         default="",
         maxlen=64,
@@ -101,7 +101,7 @@ class MyProperties(PropertyGroup):
 
 
     my_string_c: StringProperty(
-        name="Key",
+        name="Key C",
         description="Name of the shape key (all objects must use identical shape key names)",
         default="",
         maxlen=64,
@@ -125,7 +125,7 @@ class MyProperties(PropertyGroup):
 
 
     my_string_d: StringProperty(
-        name="Key",
+        name="Key D",
         description="Name of the shape key (all objects must use identical shape key names)",
         default="",
         maxlen=64,
@@ -149,7 +149,7 @@ class MyProperties(PropertyGroup):
 
 
     my_string_e: StringProperty(
-        name="Key",
+        name="Key E",
         description="Name of the shape key (all objects must use identical shape key names)",
         default="",
         maxlen=64,
