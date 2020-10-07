@@ -3,7 +3,7 @@
 ## currently in beta, public release planned for early November
 [![Screen-Shot-2020-10-07-at-1-45-38-PM.png](https://i.postimg.cc/7h7TxdmT/Screen-Shot-2020-10-07-at-1-45-38-PM.png)](https://postimg.cc/rRVpjn68)
 ### What does MultiKey do?
-MultiKey allows all objects in a set collection to have the same shape key applied at once; i.e., the value of "key1" can be changed for objects 1, 2, and 3 in a collection with just two clicks. Practically speaking, this means you could have an eyebrow object, eyelid object, and face object, each with a "raised eyebrow" key. You could change the values of all these "raised eyebrow" keys all at once. You can do this with up to five separate keys at once. _Future releases will have keyframing functionality and connect to the NLA for animation purposes. _
+MultiKey allows all objects in a set collection to have the same shape key applied at once; i.e., the value of "key1" can be changed for objects 1, 2, and 3 in a collection with just two clicks. Practically speaking, this means you could have an eyebrow object, eyelid object, and face object, each with a "raised eyebrow" key. You could change the values of all these "raised eyebrow" keys all at once. You can do this with up to five separate keys, which can be enabled/disabled with checkboxes. _Future releases will have keyframing functionality and connect to the NLA for animation purposes. _
 ### Where do I find it?
 MultiKey lives in the Properties in its own tab. 
 
