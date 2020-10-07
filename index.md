@@ -1,37 +1,32 @@
-## Welcome to GitHub Pages
+# blender-multikey
+# MultiKey for Blender 2.8+ 
+## currently in beta, public release planned for early November
+[![Screen-Shot-2020-10-07-at-3-01-19-PM.png](https://i.postimg.cc/QMyhxq4Q/Screen-Shot-2020-10-07-at-3-01-19-PM.png)](https://postimg.cc/Z9p1w6hn)
+### What does MultiKey do?
+MultiKey allows all objects in a set collection to have the same shape key applied at once.
 
-You can use the [editor on GitHub](https://github.com/josephclaytonhansen/blender-multikey/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+For example, this means you could have an eyebrow object, eyelid object, and face object, each with a "raised eyebrow" key. You could change the values of all these "raised eyebrow" keys all at once. You can do this with up to five separate keys, which can be enabled/disabled with checkboxes. 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+MultiKey allows you to select the collection that the objects are in. It also allows up to 5 shape keys to be adjusted at a time. It also has a "reset to 0", "reset to 1", and a "set all to" that allows the 5 shape keys to be changed as one. 
 
-### Markdown
+### Where do I find it?
+MultiKey lives in the Properties in its own tab. 
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### How do I use it?
+_Check the wiki for detailed instructions._
+First, create a collection that all the related objects are in. Each object in the collection must have at least one shape key. Give objects shape keys with exactly the same names. Open MultiKey, type in the key name, set the value, and click "Preview". The checkbox to the right of each key allows it be enabled/disabled.
 
-```markdown
-Syntax highlighted code block
+### Planned release features
+* Add keyframes
+* Select collection
+* ~~Preview/add multiple keys at once~~ commit 6928382
 
-# Header 1
-## Header 2
-### Header 3
+### Features beyond release (1.0+)
+* None planned
 
-- Bulleted
-- List
+### Bugs/feature requests: 
+* ~~If you have an object selected when you click Preview, it will be de-selected.~~ commit 5d5c2e9
 
-1. Numbered
-2. List
+Send bugs or feature requests to josephclaytonhansen@gmail.com. Donations greatly appreciated!
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/josephclaytonhansen/blender-multikey/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/G2G216RHJ)
