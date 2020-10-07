@@ -154,6 +154,14 @@ class MyProperties(PropertyGroup):
         default="",
         maxlen=64,
         )
+    
+    my_float_all: FloatProperty(
+        name = "Value",
+        description = "Value (0.0 to 0.1)",
+        default = 0.60,
+        min = 0.00,
+        max = 1.0
+        )
 
 
     my_enum: EnumProperty(
@@ -168,6 +176,50 @@ class MyProperties(PropertyGroup):
 # ------------------------------------------------------------------------
 #    Operators
 # ------------------------------------------------------------------------
+class WM_OT_ResetUp(Operator):
+    bl_label = "Set all to 1"
+    bl_description = "Set all keys (A-E) to 1"
+    bl_idname = "wm.mk_resetup"
+    
+    def execute(self, context):
+        scene = context.scene
+        mytool = scene.my_tool
+        mytool.my_float = 1
+        mytool.my_float_b = 1
+        mytool.my_float_c = 1
+        mytool.my_float_d = 1
+        mytool.my_float_e = 1
+        return {'FINISHED'}
+    
+class WM_OT_ResetDown(Operator):
+    bl_label = "Set all to 0"
+    bl_description = "Set all keys (A-E) to 0"
+    bl_idname = "wm.mk_resetdown"
+    
+    def execute(self, context):
+        scene = context.scene
+        mytool = scene.my_tool
+        mytool.my_float = 0
+        mytool.my_float_b = 0
+        mytool.my_float_c = 0
+        mytool.my_float_d = 0
+        mytool.my_float_e = 0
+        return {'FINISHED'}
+
+class WM_OT_SetAll(Operator):
+    bl_label = "Set all to value"
+    bl_description = "Set all keys (A-E) to a value"
+    bl_idname = "wm.mk_setall"
+    
+    def execute(self, context):
+        scene = context.scene
+        mytool = scene.my_tool
+        mytool.my_float = mytool.my_float_all
+        mytool.my_float_b = mytool.my_float_all
+        mytool.my_float_c = mytool.my_float_all
+        mytool.my_float_d = mytool.my_float_all
+        mytool.my_float_e = mytool.my_float_all
+        return {'FINISHED'}
 
 class WM_OT_HelloWorld(Operator):
     bl_label = "Preview"
@@ -272,7 +324,6 @@ class OBJECT_PT_CustomPanel(Panel):
         scene = context.scene
         mytool = scene.my_tool
         subcolumn = layout.column()
-
         subrow = layout.row(align=True)
         subrow.prop(mytool, "my_string", icon = "SHAPEKEY_DATA")
         subrow.separator()
@@ -303,6 +354,14 @@ class OBJECT_PT_CustomPanel(Panel):
         subrow.prop(mytool, "my_float_e")
         subrow.separator()
         subrow.prop(mytool, "my_bool_e")
+        subrow = layout.row(align=True)
+        subrow.operator("wm.mk_resetdown")
+        subrow.separator()
+        subrow.operator("wm.mk_resetup")
+        subrow = layout.row(align=True)
+        subrow.operator("wm.mk_setall")
+        subrow.separator()
+        subrow.prop(mytool, "my_float_all")
         layout.operator("wm.mk_panel", icon = "OUTPUT")
         subrow = layout.row(align=True)
         layout.prop(mytool, "my_enum", icon = "OUTLINER_OB_GROUP_INSTANCE")
@@ -315,6 +374,9 @@ class OBJECT_PT_CustomPanel(Panel):
 classes = (
     MyProperties,
     WM_OT_HelloWorld,
+    WM_OT_ResetDown,
+    WM_OT_ResetUp,
+    WM_OT_SetAll,
     OBJECT_MT_CustomMenu,
     OBJECT_PT_CustomPanel
 )
