@@ -6,8 +6,8 @@ bl_info = {
     "blender": (2, 80, 0),
     "location": "3D View > Multikey",
     "warning": "", # used for warning icon and text in addons panel
-    "wiki_url": "",
-    "tracker_url": "",
+    "wiki_url": "https://github.com/josephclaytonhansen/blender-multikey/",
+    "tracker_url": "https://github.com/josephclaytonhansen/blender-multikey/",
     "category": "Animation"
 }
 
