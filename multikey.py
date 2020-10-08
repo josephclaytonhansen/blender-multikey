@@ -44,7 +44,7 @@ class MyProperties(PropertyGroup):
     
 
     my_float: FloatProperty(
-        name = "Value",
+        name = "",
         description = "Value (0.0 to 0.1) of the shape key",
         default = 1,
         min = 0.00,
@@ -68,7 +68,7 @@ class MyProperties(PropertyGroup):
     
 
     my_float_b: FloatProperty(
-        name = "Value",
+        name = "",
         description = "Value (0.0 to 0.1) of the shape key",
         default = 1,
         min = 0.00,
@@ -92,7 +92,7 @@ class MyProperties(PropertyGroup):
     
 
     my_float_c: FloatProperty(
-        name = "Value",
+        name = "",
         description = "Value (0.0 to 0.1) of the shape key",
         default = 1,
         min = 0.00,
@@ -116,7 +116,7 @@ class MyProperties(PropertyGroup):
     
 
     my_float_d: FloatProperty(
-        name = "Value",
+        name = "",
         description = "Value (0.0 to 0.1) of the shape key",
         default = 1,
         min = 0.00,
@@ -140,7 +140,7 @@ class MyProperties(PropertyGroup):
     
 
     my_float_e: FloatProperty(
-        name = "Value",
+        name = "",
         description = "Value (0.0 to 0.1) of the shape key",
         default = 1,
         min = 0.00,
@@ -154,9 +154,33 @@ class MyProperties(PropertyGroup):
         default="",
         maxlen=64,
         )
+        
+    my_bool_f: BoolProperty(
+        name="",
+        description="Enable/disable this key",
+        default = True
+        )
+
+    
+
+    my_float_f: FloatProperty(
+        name = "",
+        description = "Value (0.0 to 0.1) of the shape key",
+        default = 1,
+        min = 0.00,
+        max = 1.0
+        )
+
+
+    my_string_f: StringProperty(
+        name="Key F",
+        description="Name of the shape key (all objects must use identical shape key names)",
+        default="",
+        maxlen=64,
+        )
     
     my_float_all: FloatProperty(
-        name = "Value",
+        name = "",
         description = "Value (0.0 to 0.1)",
         default = 0.60,
         min = 0.00,
@@ -189,6 +213,7 @@ class WM_OT_ResetUp(Operator):
         mytool.my_float_c = 1
         mytool.my_float_d = 1
         mytool.my_float_e = 1
+        mytool.my_float_f = 1
         return {'FINISHED'}
     
 class WM_OT_ResetDown(Operator):
@@ -204,10 +229,11 @@ class WM_OT_ResetDown(Operator):
         mytool.my_float_c = 0
         mytool.my_float_d = 0
         mytool.my_float_e = 0
+        mytool.my_float_f = 0
         return {'FINISHED'}
 
 class WM_OT_SetAll(Operator):
-    bl_label = "Set all to value"
+    bl_label = "Set all to:"
     bl_description = "Set all keys (A-E) to a value"
     bl_idname = "wm.mk_setall"
     
@@ -219,6 +245,24 @@ class WM_OT_SetAll(Operator):
         mytool.my_float_c = mytool.my_float_all
         mytool.my_float_d = mytool.my_float_all
         mytool.my_float_e = mytool.my_float_all
+        mytool.my_float_f = mytool.my_float_all
+        return {'FINISHED'}
+    
+class WM_OT_ClearNames(Operator):
+    bl_label = "Clear key names"
+    bl_description = "Delete key names"
+    bl_idname = "wm.mk_clearnames"
+    
+    def execute(self, context):
+        scene = context.scene
+        mytool = scene.my_tool
+        mytool.my_string = ""
+        mytool.my_string_b = ""
+        mytool.my_string_c = ""
+        mytool.my_string_d = ""
+        mytool.my_string_e = ""
+        mytool.my_string_f = ""
+
         return {'FINISHED'}
 
 class WM_OT_HelloWorld(Operator):
@@ -259,6 +303,11 @@ class WM_OT_HelloWorld(Operator):
         k_cole = mytool.my_enum
         k_ene = mytool.my_bool_e
         
+        k_keyf = mytool.my_string_f
+        k_valf = mytool.my_float_f
+        k_colf = mytool.my_enum
+        k_enf = mytool.my_bool_f
+        
         col = 'chelye_bt'
         
         ob_l = bpy.context.selected_objects
@@ -287,6 +336,7 @@ class WM_OT_HelloWorld(Operator):
         ex(k_keyc, k_valc, k_colc, k_enc)
         ex(k_keyd, k_vald, k_cold, k_end)
         ex(k_keye, k_vale, k_cole, k_ene)
+        ex(k_keyf, k_valf, k_colf, k_enf)
 
         return {'FINISHED'}
 
@@ -324,6 +374,7 @@ class OBJECT_PT_CustomPanel(Panel):
         scene = context.scene
         mytool = scene.my_tool
         subcolumn = layout.column()
+        layout.operator("wm.mk_clearnames", icon = "TRASH")
         subrow = layout.row(align=True)
         subrow.prop(mytool, "my_string", icon = "SHAPEKEY_DATA")
         subrow.separator()
@@ -355,13 +406,20 @@ class OBJECT_PT_CustomPanel(Panel):
         subrow.separator()
         subrow.prop(mytool, "my_bool_e")
         subrow = layout.row(align=True)
+        subrow.prop(mytool, "my_string_f", icon = "SHAPEKEY_DATA")
+        subrow.separator()
+        subrow.prop(mytool, "my_float_f")
+        subrow.separator()
+        subrow.prop(mytool, "my_bool_f")
+        subrow = layout.row(align=True)
         subrow.operator("wm.mk_resetdown")
         subrow.separator()
         subrow.operator("wm.mk_resetup")
-        subrow = layout.row(align=True)
+        subrow.separator()
         subrow.operator("wm.mk_setall")
         subrow.separator()
         subrow.prop(mytool, "my_float_all")
+        subrow = layout.row(align=True)
         layout.operator("wm.mk_panel", icon = "OUTPUT")
         subrow = layout.row(align=True)
         layout.prop(mytool, "my_enum", icon = "OUTLINER_OB_GROUP_INSTANCE")
@@ -377,6 +435,7 @@ classes = (
     WM_OT_ResetDown,
     WM_OT_ResetUp,
     WM_OT_SetAll,
+    WM_OT_ClearNames,
     OBJECT_MT_CustomMenu,
     OBJECT_PT_CustomPanel
 )
