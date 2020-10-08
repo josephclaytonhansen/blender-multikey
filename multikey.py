@@ -32,7 +32,12 @@ from bpy.types import (Panel,
 # ------------------------------------------------------------------------
 #    Scene Properties
 # ------------------------------------------------------------------------
-
+def callback(scene, context):
+    items=[]
+    for collection in bpy.data.collections:
+        items.append((collection.name, collection.name, ""))
+    return items
+    
 class MyProperties(PropertyGroup):
     
     my_bool: BoolProperty(
@@ -191,10 +196,7 @@ class MyProperties(PropertyGroup):
     my_enum: EnumProperty(
         name="Collection",
         description="Collection containing objects to shape key",
-        items=[ ('OP1', "Option 1", ""),
-                ('OP2', "Option 2", ""),
-                ('OP3', "Option 3", ""),
-               ]
+        items=callback
         )
 
 # ------------------------------------------------------------------------
@@ -308,8 +310,7 @@ class WM_OT_HelloWorld(Operator):
         k_colf = mytool.my_enum
         k_enf = mytool.my_bool_f
         
-        col = 'chelye_bt'
-        
+        col = k_col        
         ob_l = bpy.context.selected_objects
         def ex(key,value,collection,enabled):
             if(enabled == True):
@@ -422,7 +423,7 @@ class OBJECT_PT_CustomPanel(Panel):
         subrow = layout.row(align=True)
         layout.operator("wm.mk_panel", icon = "OUTPUT")
         subrow = layout.row(align=True)
-        layout.prop(mytool, "my_enum", icon = "OUTLINER_OB_GROUP_INSTANCE")
+        layout.prop(mytool, "my_enum", icon = "OUTLINER_OB_GROUP_INSTANCE", text = "")
         layout.separator()
 
 # ------------------------------------------------------------------------
