@@ -37,6 +37,10 @@ def callback(scene, context):
     for collection in bpy.data.collections:
         items.append((collection.name, collection.name, ""))
     return items
+
+def cframe(scene, context):
+    frame = context.scene.frame_current
+    return frame
     
 class MyProperties(PropertyGroup):
     
@@ -46,8 +50,6 @@ class MyProperties(PropertyGroup):
         default = True
         )
 
-    
-
     my_float: FloatProperty(
         name = "",
         description = "Value (0.0 to 0.1) of the shape key",
@@ -55,7 +57,6 @@ class MyProperties(PropertyGroup):
         min = 0.00,
         max = 1.0
         )
-
 
     my_string: StringProperty(
         name="Key A",
@@ -71,7 +72,6 @@ class MyProperties(PropertyGroup):
         )
 
     
-
     my_float_b: FloatProperty(
         name = "",
         description = "Value (0.0 to 0.1) of the shape key",
@@ -79,7 +79,6 @@ class MyProperties(PropertyGroup):
         min = 0.00,
         max = 1.0
         )
-
 
     my_string_b: StringProperty(
         name="Key B",
@@ -94,8 +93,6 @@ class MyProperties(PropertyGroup):
         default = True
         )
 
-    
-
     my_float_c: FloatProperty(
         name = "",
         description = "Value (0.0 to 0.1) of the shape key",
@@ -103,8 +100,7 @@ class MyProperties(PropertyGroup):
         min = 0.00,
         max = 1.0
         )
-
-
+        
     my_string_c: StringProperty(
         name="Key C",
         description="Name of the shape key (all objects must use identical shape key names)",
@@ -118,8 +114,6 @@ class MyProperties(PropertyGroup):
         default = True
         )
 
-    
-
     my_float_d: FloatProperty(
         name = "",
         description = "Value (0.0 to 0.1) of the shape key",
@@ -127,8 +121,7 @@ class MyProperties(PropertyGroup):
         min = 0.00,
         max = 1.0
         )
-
-
+        
     my_string_d: StringProperty(
         name="Key D",
         description="Name of the shape key (all objects must use identical shape key names)",
@@ -142,8 +135,6 @@ class MyProperties(PropertyGroup):
         default = True
         )
 
-    
-
     my_float_e: FloatProperty(
         name = "",
         description = "Value (0.0 to 0.1) of the shape key",
@@ -151,7 +142,6 @@ class MyProperties(PropertyGroup):
         min = 0.00,
         max = 1.0
         )
-
 
     my_string_e: StringProperty(
         name="Key E",
@@ -166,8 +156,6 @@ class MyProperties(PropertyGroup):
         default = True
         )
 
-    
-
     my_float_f: FloatProperty(
         name = "",
         description = "Value (0.0 to 0.1) of the shape key",
@@ -175,7 +163,6 @@ class MyProperties(PropertyGroup):
         min = 0.00,
         max = 1.0
         )
-
 
     my_string_f: StringProperty(
         name="Key F",
@@ -192,12 +179,16 @@ class MyProperties(PropertyGroup):
         max = 1.0
         )
 
-
     my_enum: EnumProperty(
         name="Collection",
         description="Collection containing objects to shape key",
         items=callback
         )
+    
+    my_int: IntProperty(
+        name="Frame",
+        description="Frame to add keyframes",
+        ) 
 
 # ------------------------------------------------------------------------
 #    Operators
@@ -206,7 +197,6 @@ class WM_OT_ResetUp(Operator):
     bl_label = "Set all to 1"
     bl_description = "Set all keys (A-E) to 1"
     bl_idname = "wm.mk_resetup"
-    
     def execute(self, context):
         scene = context.scene
         mytool = scene.my_tool
@@ -217,6 +207,98 @@ class WM_OT_ResetUp(Operator):
         mytool.my_float_e = 1
         mytool.my_float_f = 1
         return {'FINISHED'}
+
+class WM_OT_CurrentFrame(Operator):
+    bl_label = "Get current frame"
+    bl_description = "Get current frame"
+    bl_idname = "wm.mk_currentframe"
+    def execute(self,context):
+        scene = context.scene
+        mytool = scene.my_tool
+        mytool.my_int = context.scene.frame_current
+        return {'FINISHED'}
+    
+class WM_OT_AddKey(Operator):
+    bl_label = "Add keyframes at frame"
+    bl_description = "Add keyframes at frame for shapekeys"
+    bl_idname = "wm.mk_addkey"
+    def execute(self, context):
+        scene = context.scene
+        mytool = scene.my_tool
+
+        print("float value:", mytool.my_float)
+        print("string value:", mytool.my_string)
+        print("enum state:", mytool.my_enum)
+
+        k_key = mytool.my_string
+        k_val = mytool.my_float
+        k_col = mytool.my_enum
+        k_en = mytool.my_int
+        k_e = mytool.my_bool
+        
+        k_keyb = mytool.my_string_b
+        k_valb = mytool.my_float_b
+        k_colb = mytool.my_enum
+        k_enb = mytool.my_int
+        k_eb = mytool.my_bool_b
+        
+        k_keyc = mytool.my_string_c
+        k_valc = mytool.my_float_c
+        k_colc = mytool.my_enum
+        k_enc = mytool.my_int
+        k_ec = mytool.my_bool_c
+        
+        k_keyd = mytool.my_string_d
+        k_vald = mytool.my_float_d
+        k_cold = mytool.my_enum
+        k_end = mytool.my_int
+        k_ed = mytool.my_bool_d
+        
+        k_keye = mytool.my_string_e
+        k_vale = mytool.my_float_e
+        k_cole = mytool.my_enum
+        k_ene = mytool.my_int
+        k_ee = mytool.my_bool_e
+        
+        k_keyf = mytool.my_string_f
+        k_valf = mytool.my_float_f
+        k_colf = mytool.my_enum
+        k_enf = mytool.my_int
+        k_ef = mytool.my_bool_f
+        
+        col = k_col        
+        ob_l = bpy.context.selected_objects
+        def ex(key,value,collection,framef, enabled):
+            if(enabled == True): 
+                for ob in ob_l:
+                    ob.select_set(False)
+                for obj in bpy.data.collections[col].all_objects:
+                    obj.select_set(True)
+                    if hasattr(obj.data, "shape_keys"):
+                        if hasattr(obj.data.shape_keys, "key_blocks"):
+                            for shape in obj.data.shape_keys.key_blocks:
+                                if (shape.name == key):
+                                    shape.value = value
+                                    obj.data.shape_keys.key_blocks[key].keyframe_insert("value", frame=framef)
+                                else:
+                                    pass
+
+                for obj in bpy.data.collections[col].all_objects:
+                    obj.select_set(False)
+            for ob in ob_l:
+                ob.select_set(True)
+                    
+        ex(k_key, k_val, k_col, k_en, k_e)
+        ex(k_keyb, k_valb, k_colb, k_enb, k_eb)
+        ex(k_keyc, k_valc, k_colc, k_enc, k_ec)
+        ex(k_keyd, k_vald, k_cold, k_end, k_ed)
+        ex(k_keye, k_vale, k_cole, k_ene, k_ee)
+        ex(k_keyf, k_valf, k_colf, k_enf, k_ef)
+
+        return {'FINISHED'}
+
+    
+
     
 class WM_OT_ResetDown(Operator):
     bl_label = "Set all to 0"
@@ -425,6 +507,16 @@ class OBJECT_PT_CustomPanel(Panel):
         subrow = layout.row(align=True)
         layout.prop(mytool, "my_enum", icon = "OUTLINER_OB_GROUP_INSTANCE", text = "")
         layout.separator()
+        layout.separator()
+        layout.separator()
+        subrow = layout.row(align=True)
+        subrow.operator("wm.mk_currentframe", icon = "DECORATE_KEYFRAME")
+        subrow = layout.row(align=True)
+        subrow.prop(mytool, "my_int")
+        subrow.separator()
+        subrow.operator("wm.mk_addkey", icon = "KEY_HLT")
+
+        
 
 # ------------------------------------------------------------------------
 #    Registration
@@ -436,7 +528,9 @@ classes = (
     WM_OT_ResetDown,
     WM_OT_ResetUp,
     WM_OT_SetAll,
+    WM_OT_CurrentFrame,
     WM_OT_ClearNames,
+    WM_OT_AddKey,
     OBJECT_MT_CustomMenu,
     OBJECT_PT_CustomPanel
 )
