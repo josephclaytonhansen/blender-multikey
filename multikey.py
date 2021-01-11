@@ -44,7 +44,7 @@ def cframe(scene, context):
     return frame
 
 class MultikeyAddonPreferences(AddonPreferences):
-    bl_idname = "Multikey"
+    bl_idname = __name__
     clean_mode: BoolProperty(name="Clean Mode",default=False,)
     def draw(self, context):
         layout = self.layout
@@ -208,7 +208,7 @@ class OBJECT_OT_addon_prefs(Operator):
     bl_options = {'REGISTER'}
     def execute(self, context):
         preferences = context.preferences
-        addon_prefs = preferences.addons["Multikey"].preferences
+        addon_prefs = preferences.addons[__name__].preferences
         info = (addon_prefs.clean_mode)
         self.report({'INFO'}, info)
         print(info)
