@@ -45,11 +45,16 @@ def cframe(scene, context):
 
 class MultikeyAddonPreferences(AddonPreferences):
     bl_idname = __name__
-    clean_mode: BoolProperty(name="Clean Mode",default=False,)
+    clean_mode = bpy.props.BoolProperty(name = "", description="Clean mode",default=False)
     def draw(self, context):
         layout = self.layout
         layout.label(text="Preferences")
         layout.prop(self, "clean_mode")
+    def register():
+        bpy.utils.register_class(MultikeyAddonPreferences)
+    def unregister():
+        bpy.utils.unregister_class(MultikeyAddonPreferences)
+    
         
 class MyProperties(PropertyGroup):
     
@@ -202,28 +207,6 @@ class MyProperties(PropertyGroup):
 # ------------------------------------------------------------------------
 #    Operators
 # ------------------------------------------------------------------------
-class OBJECT_OT_addon_prefs(Operator):
-    bl_idname = "object.add_on_prefs"
-    bl_label = "Add-On Preferences"
-    bl_options = {'REGISTER'}
-    clean_mode = bpy.props.BoolProperty(name="Clean Mode",default=False)
-    def draw(self, context):
-        layout = self.layout
-        layout.label(text="Preferences")
-        layout.prop(self, "clean_mode")
-    def execute(self, context):
-        preferences = context.preferences
-        addon_prefs = preferences.addons[__name__].preferences
-        info = (addon_prefs.clean_mode)
-        self.report({'INFO'}, info)
-        print(info)
-        return{'FINISHED'}
-    def register():
-        bpy.utils.register_class(OBJECT_OT_addon_prefs)
-        bpy.utils.register_class(MultikeyAddonPreferences)
-    def unregister():
-        bpy.utils.unregister_class(OBJECT_OT_addon_prefs)
-        bpy.utils.unregister_class(MultikeyAddonPreferences)
 
 class WM_OT_ResetUp(Operator):
     bl_label = "Set all to 1"
