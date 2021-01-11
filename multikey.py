@@ -206,7 +206,7 @@ class OBJECT_OT_addon_prefs(Operator):
     bl_idname = "object.add_on_prefs"
     bl_label = "Add-On Preferences"
     bl_options = {'REGISTER'}
-    clean_mode: BoolProperty(name="Clean Mode",default=False,)
+    clean_mode = bpy.props.BoolProperty(name="Clean Mode",default=False)
     def draw(self, context):
         layout = self.layout
         layout.label(text="Preferences")
