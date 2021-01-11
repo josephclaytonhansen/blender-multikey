@@ -26,6 +26,7 @@ from bpy.types import (Panel,
                        Menu,
                        Operator,
                        PropertyGroup,
+                       AddonPreferences
                        )
 
 
@@ -41,7 +42,15 @@ def callback(scene, context):
 def cframe(scene, context):
     frame = context.scene.frame_current
     return frame
-    
+
+class MultikeyAddonPreferences(AddonPreferences):
+    bl_idname = "Multikey"
+    clean_mode: BoolProperty(name="Clean Mode",default=False,)
+    def draw(self, context):
+        layout = self.layout
+        layout.label(text="Preferences")
+        layout.prop(self, "clean_mode")
+        
 class MyProperties(PropertyGroup):
     
     my_bool: BoolProperty(
@@ -193,6 +202,24 @@ class MyProperties(PropertyGroup):
 # ------------------------------------------------------------------------
 #    Operators
 # ------------------------------------------------------------------------
+class OBJECT_OT_addon_prefs(Operator):
+    bl_idname = "object.add_on_prefs"
+    bl_label = "Add-On Preferences"
+    bl_options = {'REGISTER'}
+    def execute(self, context):
+        preferences = context.preferences
+        addon_prefs = preferences.addons["Multikey"].preferences
+        info = (addon_prefs.clean_mode)
+        self.report({'INFO'}, info)
+        print(info)
+        return{'FINISHED'}
+    def register():
+        bpy.utils.register_class(OBJECT_OT_addon_prefs)
+        bpy.utils.register_class(MultikeyAddonPreferences)
+    def unregister():
+        bpy.utils.unregister_class(OBJECT_OT_addon_prefs)
+        bpy.utils.unregister_class(MultikeyAddonPreferences)
+
 class WM_OT_ResetUp(Operator):
     bl_label = "Set all to 1"
     bl_description = "Set all keys (A-E) to 1"
