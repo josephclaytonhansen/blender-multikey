@@ -51,7 +51,7 @@ class MultikeyAddonPreferences(AddonPreferences):
         layout.label(text="Preferences")
         layout.prop(self, "clean_mode")
     def execute(self, context):
-        preferences = context.preferences
+        preferences = bpy.ops.preferences
         addon_prefs = preferences.addons[__name__].preferences
         return({'FINISHED'})
     
