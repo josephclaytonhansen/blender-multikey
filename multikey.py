@@ -50,10 +50,6 @@ class MultikeyAddonPreferences(AddonPreferences):
         layout = self.layout
         layout.label(text="Preferences")
         layout.prop(self, "clean_mode")
-    def register():
-        bpy.utils.register_class(MultikeyAddonPreferences)
-    def unregister():
-        bpy.utils.unregister_class(MultikeyAddonPreferences)
     
         
 class MyProperties(PropertyGroup):
@@ -551,6 +547,7 @@ classes = (
 )
 
 def register():
+    bpy.utils.register_class(MultikeyAddonPreferences)
     from bpy.utils import register_class
     for cls in classes:
         register_class(cls)
@@ -558,6 +555,7 @@ def register():
     bpy.types.Scene.my_tool = PointerProperty(type=MyProperties)
 
 def unregister():
+    bpy.utils.unregister_class(MultikeyAddonPreferences)
     from bpy.utils import unregister_class
     for cls in reversed(classes):
         unregister_class(cls)
