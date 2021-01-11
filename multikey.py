@@ -44,12 +44,16 @@ def cframe(scene, context):
     return frame
 
 class MultikeyAddonPreferences(AddonPreferences):
-    bl_idname = __package__
+    bl_idname = __name__
     clean_mode = bpy.props.BoolProperty(name = "", description="Clean mode",default=False)
     def draw(self, context):
         layout = self.layout
         layout.label(text="Preferences")
         layout.prop(self, "clean_mode")
+    def execute(self, context):
+        preferences = context.preferences
+        addon_prefs = preferences.addons[__name__].preferences
+        return({'FINISHED'})
     
         
 class MyProperties(PropertyGroup):
