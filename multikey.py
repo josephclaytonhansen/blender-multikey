@@ -44,7 +44,7 @@ def cframe(scene, context):
     return frame
 
 class MultikeyAddonPreferences(AddonPreferences):
-    bl_idname = __name__
+    bl_idname = __package__
     clean_mode = bpy.props.BoolProperty(name = "", description="Clean mode",default=False)
     def draw(self, context):
         layout = self.layout
