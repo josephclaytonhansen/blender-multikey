@@ -2,7 +2,7 @@ bl_info = {
     "name": "Multikey",
     "description": "change shape keys on multiple objects and keyframe them",
     "author": "Joseph Hansen",
-    "version": (1, 0, 0),
+    "version": (1, 1, 0),
     "blender": (2, 90, 0),
     "location": "3D View > Multikey",
     "warning": "", # used for warning icon and text in addons panel
