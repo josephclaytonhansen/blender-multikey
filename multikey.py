@@ -3,7 +3,7 @@ bl_info = {
     "description": "change shape keys on multiple objects and keyframe them",
     "author": "Joseph Hansen",
     "version": (1, 0, 0),
-    "blender": (2, 80, 0),
+    "blender": (2, 90, 0),
     "location": "3D View > Multikey",
     "warning": "", # used for warning icon and text in addons panel
     "wiki_url": "https://github.com/josephclaytonhansen/blender-multikey/",
@@ -13,7 +13,7 @@ bl_info = {
 
 
 import bpy
-
+icons = True
 from bpy.props import (StringProperty,
                        BoolProperty,
                        IntProperty,
@@ -171,6 +171,48 @@ class MyProperties(PropertyGroup):
         maxlen=64,
         )
     
+    my_bool_g: BoolProperty(
+        name="",
+        description="Enable/disable this key",
+        default = True
+        )
+
+    my_float_g: FloatProperty(
+        name = "",
+        description = "Value (0.0 to 0.1) of the shape key",
+        default = 1,
+        min = 0.00,
+        max = 1.0
+        )
+
+    my_string_g: StringProperty(
+        name="Key G",
+        description="Name of the shape key (all objects must use identical shape key names)",
+        default="",
+        maxlen=64,
+        )
+    
+    my_bool_h: BoolProperty(
+        name="",
+        description="Enable/disable this key",
+        default = True
+        )
+
+    my_float_h: FloatProperty(
+        name = "",
+        description = "Value (0.0 to 0.1) of the shape key",
+        default = 1,
+        min = 0.00,
+        max = 1.0
+        )
+
+    my_string_h: StringProperty(
+        name="Key H",
+        description="Name of the shape key (all objects must use identical shape key names)",
+        default="",
+        maxlen=64,
+        )
+    
     my_float_all: FloatProperty(
         name = "",
         description = "Value (0.0 to 0.1)",
@@ -206,6 +248,8 @@ class WM_OT_ResetUp(Operator):
         mytool.my_float_d = 1
         mytool.my_float_e = 1
         mytool.my_float_f = 1
+        mytool.my_float_g = 1
+        mytool.my_float_h = 1
         return {'FINISHED'}
 
 class WM_OT_CurrentFrame(Operator):
@@ -266,6 +310,18 @@ class WM_OT_AddKey(Operator):
         k_enf = mytool.my_int
         k_ef = mytool.my_bool_f
         
+        k_keyg = mytool.my_string_g
+        k_valg = mytool.my_float_g
+        k_colg = mytool.my_enum
+        k_eng = mytool.my_int
+        k_eg = mytool.my_bool_g
+        
+        k_keyh = mytool.my_string_h
+        k_valh = mytool.my_float_h
+        k_colh = mytool.my_enum
+        k_enh = mytool.my_int
+        k_eh = mytool.my_bool_h
+        
         col = k_col        
         ob_l = bpy.context.selected_objects
         def ex(key,value,collection,framef, enabled):
@@ -294,7 +350,9 @@ class WM_OT_AddKey(Operator):
         ex(k_keyd, k_vald, k_cold, k_end, k_ed)
         ex(k_keye, k_vale, k_cole, k_ene, k_ee)
         ex(k_keyf, k_valf, k_colf, k_enf, k_ef)
-
+        ex(k_keyg, k_valg, k_colg, k_eng, k_eg)
+        ex(k_keyh, k_valh, k_colh, k_enh, k_eh)
+        
         return {'FINISHED'}
 
     
@@ -302,7 +360,7 @@ class WM_OT_AddKey(Operator):
     
 class WM_OT_ResetDown(Operator):
     bl_label = "Set all to 0"
-    bl_description = "Set all keys (A-E) to 0"
+    bl_description = "Set all keys (A-H) to 0"
     bl_idname = "wm.mk_resetdown"
     
     def execute(self, context):
@@ -314,11 +372,13 @@ class WM_OT_ResetDown(Operator):
         mytool.my_float_d = 0
         mytool.my_float_e = 0
         mytool.my_float_f = 0
+        mytool.my_float_g = 0
+        mytool.my_float_h = 0
         return {'FINISHED'}
 
 class WM_OT_SetAll(Operator):
     bl_label = "Set all to:"
-    bl_description = "Set all keys (A-E) to a value"
+    bl_description = "Set all keys (A-H) to a value"
     bl_idname = "wm.mk_setall"
     
     def execute(self, context):
@@ -330,6 +390,21 @@ class WM_OT_SetAll(Operator):
         mytool.my_float_d = mytool.my_float_all
         mytool.my_float_e = mytool.my_float_all
         mytool.my_float_f = mytool.my_float_all
+        mytool.my_float_g = mytool.my_float_all
+        mytool.my_float_h = mytool.my_float_all
+        return {'FINISHED'}
+
+class WM_OT_Light(Operator):
+    bl_label = "Toggle icons"
+    bl_description = "Remove/show icons"
+    bl_idname = "wm.mk_clean"
+    
+    def execute(self, context):
+        global icons
+        if icons:
+            icons = False
+        else:
+            icons = True
         return {'FINISHED'}
     
 class WM_OT_ClearNames(Operator):
@@ -346,6 +421,8 @@ class WM_OT_ClearNames(Operator):
         mytool.my_string_d = ""
         mytool.my_string_e = ""
         mytool.my_string_f = ""
+        mytool.my_string_g = ""
+        mytool.my_string_h = ""
 
         return {'FINISHED'}
 
@@ -392,6 +469,16 @@ class WM_OT_HelloWorld(Operator):
         k_colf = mytool.my_enum
         k_enf = mytool.my_bool_f
         
+        k_keyg = mytool.my_string_g
+        k_valg = mytool.my_float_g
+        k_colg = mytool.my_enum
+        k_eng = mytool.my_bool_g
+        
+        k_keyh = mytool.my_string_h
+        k_valh = mytool.my_float_h
+        k_colh = mytool.my_enum
+        k_enh = mytool.my_bool_h
+        
         col = k_col        
         ob_l = bpy.context.selected_objects
         def ex(key,value,collection,enabled):
@@ -420,7 +507,9 @@ class WM_OT_HelloWorld(Operator):
         ex(k_keyd, k_vald, k_cold, k_end)
         ex(k_keye, k_vale, k_cole, k_ene)
         ex(k_keyf, k_valf, k_colf, k_enf)
-
+        ex(k_keyg, k_valg, k_colg, k_eng)
+        ex(k_keyg, k_valg, k_colg, k_enh)
+        
         return {'FINISHED'}
 
 # ------------------------------------------------------------------------
@@ -453,47 +542,91 @@ class OBJECT_PT_CustomPanel(Panel):
         return context.object is not None
 
     def draw(self, context):
+        global icons
+        if icons:
+            icon_dict = {0:"TRASH",1:"SHAPEKEY_DATA",2:"SHAPEKEY_DATA",3:"SHAPEKEY_DATA",4:"SHAPEKEY_DATA",5:"SHAPEKEY_DATA",6:"SHAPEKEY_DATA",
+                         7:"OUTPUT",8:"OUTLINER_OB_GROUP_INSTANCE",9:"DECORATE_KEYFRAME",10:"KEY_HLT", 11:"SHAPEKEY_DATA", 12:"SHAPEKEY_DATA"}
+
         layout = self.layout
         scene = context.scene
         mytool = scene.my_tool
         subcolumn = layout.column()
-        layout.operator("wm.mk_clearnames", icon = "TRASH")
+        if icons:
+            layout.operator("wm.mk_clearnames", icon = icon_dict[0])
+        else:
+            layout.operator("wm.mk_clearnames")
         subrow = layout.row(align=True)
-        subrow.prop(mytool, "my_string", icon = "SHAPEKEY_DATA")
+        if icons:
+            subrow.prop(mytool, "my_string", icon = icon_dict[1])
+        else:
+            subrow.prop(mytool, "my_string")
         subrow.separator()
         subrow.prop(mytool, "my_float")
         subrow.separator()
         subrow.prop(mytool, "my_bool")
         subrow = layout.row(align=True)
-        subrow.prop(mytool, "my_string_b", icon = "SHAPEKEY_DATA")
+        if icons:
+            subrow.prop(mytool, "my_string_b", icon = icon_dict[2])
+        else:
+            subrow.prop(mytool, "my_string_b")
         subrow.separator()
         subrow.prop(mytool, "my_float_b")
         subrow.separator()
         subrow.prop(mytool, "my_bool_b")
         subrow = layout.row(align=True)
-        subrow.prop(mytool, "my_string_c", icon = "SHAPEKEY_DATA")
+        if icons:
+            subrow.prop(mytool, "my_string_c", icon = icon_dict[3])
+        else:
+            subrow.prop(mytool, "my_string_c")
         subrow.separator()
         subrow.prop(mytool, "my_float_c")
         subrow.separator()
         subrow.prop(mytool, "my_bool_c")
         subrow = layout.row(align=True)
-        subrow.prop(mytool, "my_string_d", icon = "SHAPEKEY_DATA")
+        if icons:
+            subrow.prop(mytool, "my_string_d", icon = icon_dict[4])
+        else:
+            subrow.prop(mytool, "my_string_d")
         subrow.separator()
         subrow.prop(mytool, "my_float_d")
         subrow.separator()
         subrow.prop(mytool, "my_bool_d")
         subrow = layout.row(align=True)
-        subrow.prop(mytool, "my_string_e", icon = "SHAPEKEY_DATA")
+        if icons:
+            subrow.prop(mytool, "my_string_e", icon = icon_dict[5])
+        else:
+            subrow.prop(mytool, "my_string_e")
         subrow.separator()
         subrow.prop(mytool, "my_float_e")
         subrow.separator()
         subrow.prop(mytool, "my_bool_e")
         subrow = layout.row(align=True)
-        subrow.prop(mytool, "my_string_f", icon = "SHAPEKEY_DATA")
+        if icons:
+            subrow.prop(mytool, "my_string_f", icon = icon_dict[6])
+        else:
+            subrow.prop(mytool, "my_string_f")
         subrow.separator()
         subrow.prop(mytool, "my_float_f")
         subrow.separator()
         subrow.prop(mytool, "my_bool_f")
+        subrow = layout.row(align=True)
+        if icons:
+            subrow.prop(mytool, "my_string_g", icon = icon_dict[11])
+        else:
+            subrow.prop(mytool, "my_string_g")
+        subrow.separator()
+        subrow.prop(mytool, "my_float_g")
+        subrow.separator()
+        subrow.prop(mytool, "my_bool_g")
+        subrow = layout.row(align=True)
+        if icons:
+            subrow.prop(mytool, "my_string_h", icon = icon_dict[12])
+        else:
+            subrow.prop(mytool, "my_string_h")
+        subrow.separator()
+        subrow.prop(mytool, "my_float_h")
+        subrow.separator()
+        subrow.prop(mytool, "my_bool_h")
         subrow = layout.row(align=True)
         subrow.operator("wm.mk_resetdown")
         subrow.separator()
@@ -503,18 +636,33 @@ class OBJECT_PT_CustomPanel(Panel):
         subrow.separator()
         subrow.prop(mytool, "my_float_all")
         subrow = layout.row(align=True)
-        layout.operator("wm.mk_panel", icon = "OUTPUT")
+        if icons:
+            layout.operator("wm.mk_panel", icon = icon_dict[7])
+        else:
+            layout.operator("wm.mk_panel")
         subrow = layout.row(align=True)
-        layout.prop(mytool, "my_enum", icon = "OUTLINER_OB_GROUP_INSTANCE", text = "")
+        if icons:
+            layout.prop(mytool, "my_enum", icon = icon_dict[8], text = "")
+        else:
+            layout.prop(mytool, "my_enum")
         layout.separator()
         layout.separator()
         layout.separator()
         subrow = layout.row(align=True)
-        subrow.operator("wm.mk_currentframe", icon = "DECORATE_KEYFRAME")
+        if icons:
+            subrow.operator("wm.mk_currentframe", icon = icon_dict[9])
+        else:
+            subrow.operator("wm.mk_currentframe")
         subrow = layout.row(align=True)
         subrow.prop(mytool, "my_int")
         subrow.separator()
-        subrow.operator("wm.mk_addkey", icon = "KEY_HLT")
+        if icons:
+            subrow.operator("wm.mk_addkey", icon = icon_dict[10])
+        else:
+            subrow.operator("wm.mk_addkey")
+        layout.separator()
+        subrow =  layout.row(align=True)
+        subrow.operator("wm.mk_clean")
 
         
 
@@ -531,6 +679,7 @@ classes = (
     WM_OT_CurrentFrame,
     WM_OT_ClearNames,
     WM_OT_AddKey,
+    WM_OT_Light,
     OBJECT_MT_CustomMenu,
     OBJECT_PT_CustomPanel
 )
