@@ -9,7 +9,7 @@ For example, this means you could have an eyebrow object, eyelid object, and fac
 MultiKey allows you to select the collection that the objects are in. It also allows up to six shape keys to be adjusted at a time. It also has a "reset to 0", "reset to 1", and a "set all to" that allows the six shape keys to be changed as one. 
 
 ## Visit https://blendermarket.com/products/multikey-shape-keys-made-easy/ for detailed information/updates.
-## Current sales/downloads: 90+
-## Current rating: 5.0/5.0
+### Current sales/downloads: 90+
+### Current rating: 5.0/5.0
 
 Send bugs or feature requests to josephclaytonhansen@gmail.com.
